@@ -1,6 +1,7 @@
 package org.apache.hadoop.hive.metastore.dataconnector;
 
 import org.apache.hadoop.hive.metastore.api.DataConnector;
+import org.apache.hadoop.hive.metastore.dataconnector.hms.ApacheHiveConnectorProvider;
 import org.apache.hadoop.hive.metastore.dataconnector.jdbc.DerbySQLConnectorProvider;
 import org.apache.hadoop.hive.metastore.dataconnector.jdbc.MySQLConnectorProvider;
 import org.apache.hadoop.hive.metastore.dataconnector.jdbc.PostgreSQLConnectorProvider;
@@ -22,6 +23,10 @@ public class JDBCConnectorProviderFactory {
     case DERBY_TYPE:
       provider = new DerbySQLConnectorProvider(dbName, connector);
       break;
+
+      case HIVE_TYPE:
+        provider = new ApacheHiveConnectorProvider(dbName, connector);
+        break;
 
     default:
       throw new RuntimeException("Unsupported JDBC type");

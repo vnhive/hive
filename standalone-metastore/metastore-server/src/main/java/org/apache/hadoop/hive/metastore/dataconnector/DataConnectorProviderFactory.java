@@ -6,6 +6,7 @@ import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.DatabaseType;
 import org.apache.hadoop.hive.metastore.api.MetaException;
 import org.apache.hadoop.hive.metastore.api.NoSuchObjectException;
+import org.apache.hadoop.hive.metastore.dataconnector.hms.ApacheHiveConnectorProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,6 +69,14 @@ public class DataConnectorProviderFactory {
         throw new MetaException("Could not instantiate a provider for database " + db.getName());
       }
       break;
+    case HIVE_TYPE:
+      try {
+        provider = new ApacheHiveConnectorProvider(scopedDb, connector);
+      } catch (Exception e) {
+        throw new MetaException("Could not instantiate a provider for database " + db.getName());
+      }
+      break;
+
     default:
       throw new MetaException("Data connector of type " + connector.getType() + " not implemented yet");
     }
